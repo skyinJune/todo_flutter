@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter/routes/home/index.dart';
+import 'package:todo_flutter/routes/tabBarNav/index.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: TabBarNav(),
     );
   }
 }
