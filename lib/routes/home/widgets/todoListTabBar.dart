@@ -5,8 +5,11 @@ class TodoListTabBar extends StatefulWidget {
   _TodoListTabBarState createState() => _TodoListTabBarState();
 }
 
-class _TodoListTabBarState extends State<TodoListTabBar> {
+class _TodoListTabBarState extends State<TodoListTabBar>
+    with AutomaticKeepAliveClientMixin {
   int _count = 2;
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

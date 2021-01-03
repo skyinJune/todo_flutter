@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:todo_flutter/routes/home/widgets/collectionTabBar.dart';
 import 'package:todo_flutter/routes/home/widgets/exploreTabBar.dart';
 import 'package:todo_flutter/routes/home/widgets/myTabBar.dart';
@@ -10,38 +9,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  final List<Map> _navPages = [
-    {'title': '记事本', 'content': TodoListTabBar()},
-    {'title': '收藏', 'content': CollectionTabBar()},
-    {'title': '发现', 'content': ExploreTabBar()},
-    {'title': '我的', 'content': MyTabBar()},
+  PageController _controller;
+  final List _navPageMapList = [
+    {'title': '首页', 'page': TodoListTabBar(), 'icon': Icon(Icons.home)},
+    {'title': '收藏', 'page': CollectionTabBar(), 'icon': Icon(Icons.star)},
+    {'title': '发现', 'page': ExploreTabBar(), 'icon': Icon(Icons.explore)},
+    {'title': '我的', 'page': MyTabBar(), 'icon': Icon(Icons.person)},
   ];
+  List<Widget> _pageList = [];
+  List<String> _titleList = [];
+  List<BottomNavigationBarItem> _bottomNavItemList = [];
 
-  final _swiperController = new SwiperController();
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController(initialPage: _selectedIndex);
+    _pageList.addAll(_navPageMapList.map((e) => e['page']));
+    _titleList.addAll(_navPageMapList.map((e) => e['title']));
+    _bottomNavItemList.addAll(_navPageMapList.map(
+        (e) => BottomNavigationBarItem(icon: e['icon'], label: e['title'])));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_navPages[_selectedIndex]['title']),
+        title: Text(_titleList[_selectedIndex]),
       ),
-      body: new Swiper(
-          itemCount: _navPages.length,
-          controller: _swiperController,
-          loop: false,
-          itemBuilder: (BuildContext context, int index) {
-            return _navPages[index]['content'];
-          },
-          onIndexChanged: onSwiperChange),
+      body: PageView(
+        controller: _controller,
+        children: _pageList,
+        onPageChanged: _onPageChanged,
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: '首页'),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: '收藏'),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: '发现'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的')
-        ],
+        items: _bottomNavItemList,
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
@@ -54,16 +57,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    moveTo(index);
+    _controller.jumpToPage(index);
   }
 
-  void onSwiperChange(int index) {
+  void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void moveTo(int index) {
-    _swiperController.move(index);
   }
 }
