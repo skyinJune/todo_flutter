@@ -11,11 +11,15 @@ class _TodoListTabBarState extends State<TodoListTabBar>
   @override
   bool get wantKeepAlive => true;
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return TodoItem();
+          return TodoItem(
+            title: '初始标题',
+            createTime: new DateTime.now(),
+          );
         },
         itemCount: _count,
       ),
