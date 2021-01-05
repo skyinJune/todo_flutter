@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_flutter/routes/addTodo/index.dart';
 import 'package:todo_flutter/widgets/todoItem.dart';
 
 class TodoListTabBar extends StatefulWidget {
@@ -19,6 +20,7 @@ class _TodoListTabBarState extends State<TodoListTabBar>
           return TodoItem(
             title: '初始标题',
             createTime: new DateTime.now(),
+            beginTime: DateTime.parse("2020-07-20 20:18:04"),
           );
         },
         itemCount: _count,
@@ -28,6 +30,9 @@ class _TodoListTabBarState extends State<TodoListTabBar>
           setState(() {
             _count++;
           });
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return AddTodoPage();
+          }));
         },
         child: Icon(Icons.add),
       ),

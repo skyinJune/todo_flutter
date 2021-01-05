@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
 class TodoItem extends StatelessWidget {
-  TodoItem({Key key, @required this.title, @required this.createTime})
+  TodoItem(
+      {Key key,
+      @required this.title,
+      @required this.createTime,
+      @required this.beginTime})
       : super(key: key);
 
   final String title;
   final DateTime createTime;
+  final DateTime beginTime;
 
   @override
   Widget build(BuildContext context) {
+    final int _diffDays = new DateTime.now().difference(beginTime).inDays;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -24,7 +30,7 @@ class TodoItem extends StatelessWidget {
                 margin: EdgeInsets.only(left: 15),
                 color: Theme.of(context).primaryColor,
                 alignment: Alignment.center,
-                child: Text('$title已经'),
+                child: Text(title + (_diffDays > 0 ? '已经' : '还有')),
               )),
           Expanded(
               flex: 3,
@@ -32,7 +38,7 @@ class TodoItem extends StatelessWidget {
                 margin: EdgeInsets.only(left: 15),
                 color: Theme.of(context).accentColor,
                 alignment: Alignment.center,
-                child: Text(countDays().toString()),
+                child: Text('$_diffDays'),
               )),
           Expanded(
               flex: 1,
@@ -47,9 +53,5 @@ class TodoItem extends StatelessWidget {
       ),
       padding: EdgeInsets.all(20),
     );
-  }
-
-  int countDays() {
-    return DateTime.now().compareTo(createTime);
   }
 }
