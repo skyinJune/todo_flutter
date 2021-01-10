@@ -5,6 +5,8 @@ class AddTodoPage extends StatefulWidget {
 }
 
 class _AddTodoPageState extends State<AddTodoPage> {
+  String _title = '';
+  DateTime _todoDate = new DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,8 +15,33 @@ class _AddTodoPageState extends State<AddTodoPage> {
       ),
       body: Column(
         children: [
-          Icon(Icons.badge),
-          Icon(Icons.event),
+          TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+                hintText: '输入事件名称', prefixIcon: Icon(Icons.badge)),
+            onChanged: (e) {
+              setState(() {
+                _title = e;
+                print(_title);
+              });
+            },
+          ),
+          Container(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.event),
+                  title: Text('目标日'),
+                ),
+                Row(
+                  children: [
+                    Text(
+                        '${_todoDate.year}-${_todoDate.month}-${_todoDate.day} 星期${_todoDate.weekday}')
+                  ],
+                )
+              ],
+            ),
+          ),
           Icon(Icons.book),
           Icon(Icons.vertical_align_top),
           Icon(Icons.replay),
