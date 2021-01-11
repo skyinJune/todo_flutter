@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_flutter/common/Utility.dart';
 
 class AddTodoPage extends StatefulWidget {
   _AddTodoPageState createState() => _AddTodoPageState();
@@ -33,11 +34,20 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   leading: Icon(Icons.event),
                   title: Text('目标日'),
                 ),
-                Row(
-                  children: [
-                    Text(
-                        '${_todoDate.year}-${_todoDate.month}-${_todoDate.day} 星期${_todoDate.weekday}')
-                  ],
+                InkWell(
+                  child: Text(
+                    '${_todoDate.year}-${_todoDate.month}-${_todoDate.day} 星期${parseWeekDayToCnNum(_todoDate.weekday)}',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor, fontSize: 18),
+                  ),
+                  onTap: () async {
+                    var _selectedDate = await _datePicker(context);
+                    if (_selectedDate != null) {
+                      setState(() {
+                        _todoDate = _selectedDate;
+                      });
+                    }
+                  },
                 )
               ],
             ),
@@ -50,4 +60,13 @@ class _AddTodoPageState extends State<AddTodoPage> {
       ),
     );
   }
+}
+
+Future<DateTime> _datePicker(BuildContext context) {
+  var date = new DateTime.now();
+  return showDatePicker(
+      context: context,
+      initialDate: date,
+      firstDate: date,
+      lastDate: DateTime(2030));
 }

@@ -27,9 +27,6 @@ class _TodoListTabBarState extends State<TodoListTabBar>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            _count++;
-          });
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return AddTodoPage();
           }));
