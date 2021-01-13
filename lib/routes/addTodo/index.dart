@@ -8,16 +8,19 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   String _title = '';
   DateTime _todoDate = new DateTime.now();
+  bool _isTop = false;
+  bool _hasEndTime = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('新增事件'),
       ),
-      body: Column(
+      body: ListView(
         children: [
           TextField(
-            autofocus: true,
+            autofocus: false,
             decoration: InputDecoration(
                 hintText: '输入事件名称', prefixIcon: Icon(Icons.badge)),
             onChanged: (e) {
@@ -52,10 +55,48 @@ class _AddTodoPageState extends State<AddTodoPage> {
               ],
             ),
           ),
-          Icon(Icons.book),
-          Icon(Icons.vertical_align_top),
-          Icon(Icons.replay),
-          Icon(Icons.event_available),
+          ListTile(
+              leading: Icon(Icons.vertical_align_top),
+              title: Text('置顶'),
+              trailing: Switch(
+                value: _isTop,
+                onChanged: (e) {
+                  setState(() {
+                    _isTop = e;
+                  });
+                },
+              )),
+          ListTile(
+            leading: Icon(Icons.replay),
+            title: Text('重复'),
+          ),
+          ListTile(
+              leading: Icon(Icons.event_available),
+              title: Text('结束时间'),
+              trailing: Switch(
+                value: _hasEndTime,
+                onChanged: (e) {
+                  setState(() {
+                    _hasEndTime = e;
+                  });
+                },
+              )),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 3),
+            margin: EdgeInsets.symmetric(vertical: 5),
+            child: FlatButton(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                minWidth: double.infinity,
+                color: Theme.of(context).primaryColor,
+                onPressed: () {
+                  print('submit');
+                },
+                child: Text(
+                  '保存',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                )),
+          )
         ],
       ),
     );
@@ -68,5 +109,5 @@ Future<DateTime> _datePicker(BuildContext context) {
       context: context,
       initialDate: date,
       firstDate: date,
-      lastDate: DateTime(2030));
+      lastDate: DateTime(date.year + 10));
 }
