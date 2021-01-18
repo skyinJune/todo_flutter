@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/common/Utility.dart';
+import 'package:todo_flutter/db/todoItemDB.dart';
+import 'package:todo_flutter/models/index.dart';
 
 class AddTodoPage extends StatefulWidget {
   _AddTodoPageState createState() => _AddTodoPageState();
@@ -90,6 +92,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
                   print('submit');
+                  addTodoItem();
                 },
                 child: Text(
                   '保存',
@@ -101,13 +104,24 @@ class _AddTodoPageState extends State<AddTodoPage> {
       ),
     );
   }
-}
 
-Future<DateTime> _datePicker(BuildContext context) {
-  var date = new DateTime.now();
-  return showDatePicker(
-      context: context,
-      initialDate: date,
-      firstDate: date,
-      lastDate: DateTime(date.year + 10));
+  Future<DateTime> _datePicker(BuildContext context) {
+    var date = new DateTime.now();
+    return showDatePicker(
+        context: context,
+        initialDate: date,
+        firstDate: date,
+        lastDate: DateTime(date.year + 10));
+  }
+
+  void addTodoItem() async {
+    final todoItem = TodoItem(
+        title: _title,
+        createTime: new DateTime.now().millisecondsSinceEpoch,
+        beginTime: _todoDate.millisecondsSinceEpoch,
+        isTop: false,
+        hasEndTime: false);
+    final todoItemDb = await todoItemDB();
+    await todoItemDb.insert('todo_items', todoItem.toJson());
+  }
 }
