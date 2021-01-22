@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'todoItem.g.dart';
+part 'todoItemModel.g.dart';
 
 @JsonSerializable()
-class TodoItem {
-  TodoItem(
+class TodoItemModel {
+  TodoItemModel(
       {this.title,
       this.createTime,
       this.beginTime,
@@ -15,11 +15,11 @@ class TodoItem {
   String title;
   num createTime;
   num beginTime;
-  bool isTop;
-  bool hasEndTime;
+  num isTop;
+  num hasEndTime;
   num endTime;
 
-  factory TodoItem.fromJson(Map<String, dynamic> json) =>
-      _$TodoItemFromJson(json);
-  Map<String, dynamic> toJson() => _$TodoItemToJson(this);
+  factory TodoItemModel.fromJson(Map<String, dynamic> json) =>
+      _$TodoItemModelFromJson(json);
+  Map<String, dynamic> toJson() => _$TodoItemModelToJson(this);
 }

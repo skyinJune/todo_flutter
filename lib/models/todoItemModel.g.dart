@@ -1,22 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todoItem.dart';
+part of 'todoItemModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TodoItem _$TodoItemFromJson(Map<String, dynamic> json) {
-  return TodoItem()
+TodoItemModel _$TodoItemModelFromJson(Map<String, dynamic> json) {
+  return TodoItemModel()
     ..title = json['title'] as String
     ..createTime = json['createTime'] as num
     ..beginTime = json['beginTime'] as num
-    ..isTop = json['isTop'] as bool
-    ..hasEndTime = json['hasEndTime'] as bool
+    ..isTop = json['isTop'] as num
+    ..hasEndTime = json['hasEndTime'] as num
     ..endTime = json['endTime'] as num;
 }
 
-Map<String, dynamic> _$TodoItemToJson(TodoItem instance) => <String, dynamic>{
+Map<String, dynamic> _$TodoItemModelToJson(TodoItemModel instance) =>
+    <String, dynamic>{
       'title': instance.title,
       'createTime': instance.createTime,
       'beginTime': instance.beginTime,

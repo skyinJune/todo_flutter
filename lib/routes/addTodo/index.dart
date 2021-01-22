@@ -115,12 +115,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
   }
 
   void addTodoItem() async {
-    final todoItem = TodoItem(
+    final todoItem = TodoItemModel(
         title: _title,
         createTime: new DateTime.now().millisecondsSinceEpoch,
         beginTime: _todoDate.millisecondsSinceEpoch,
-        isTop: false,
-        hasEndTime: false);
+        isTop: 0,
+        hasEndTime: 0);
     final todoItemDb = await todoItemDB();
     await todoItemDb.insert('todo_items', todoItem.toJson());
   }
