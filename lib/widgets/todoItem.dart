@@ -38,7 +38,7 @@ class TodoItem extends StatelessWidget {
                 margin: EdgeInsets.only(left: 15),
                 color: Theme.of(context).accentColor,
                 alignment: Alignment.center,
-                child: Text('$_diffDays'),
+                child: Text('${_diffDays.abs()}'),
               )),
           Expanded(
               flex: 1,
