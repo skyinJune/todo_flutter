@@ -12,16 +12,19 @@ class _TodoListTabBarState extends State<TodoListTabBar>
     with AutomaticKeepAliveClientMixin {
   List<TodoItemModel> _todoItemList = [];
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
   @override
+  void initState() {
+    super.initState();
+    this.fetchData();
+  }
+
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           if (_todoItemList.length == 0) {
-            print('test 0');
-            fetchData();
             return Container(
               padding: EdgeInsets.all(17),
               alignment: Alignment.center,
@@ -36,10 +39,10 @@ class _TodoListTabBarState extends State<TodoListTabBar>
           } else {
             return TodoItem(
               title: _todoItemList[index].title,
-              // createTime: DateTime.fromMicrosecondsSinceEpoch(
-              //     _todoItemList[index].createTime),
-              createTime: new DateTime.now(),
-              beginTime: DateTime.parse("2020-07-20 20:18:04"),
+              createTime: DateTime.fromMicrosecondsSinceEpoch(
+                  _todoItemList[index].createTime),
+              beginTime: DateTime.fromMicrosecondsSinceEpoch(
+                  _todoItemList[index].beginTime),
             );
           }
         },
@@ -59,9 +62,10 @@ class _TodoListTabBarState extends State<TodoListTabBar>
   Future<void> fetchData() async {
     final db = await todoItemDB();
     final List<Map<String, dynamic>> maps = await db.query('todo_items');
+    var list = List.generate(
+        maps.length, (index) => TodoItemModel.fromJson(maps[index]));
     setState(() {
-      _todoItemList.insertAll(_todoItemList.length - 1,
-          List.generate(maps.length, (i) => TodoItemModel.fromJson(maps[i])));
+      _todoItemList = list;
     });
   }
 }
